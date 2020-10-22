@@ -3,6 +3,7 @@ import 'post.dart';
 class User {
   final String profileImageUrl;
   final String backgroundImageUrl;
+
   final String name;
   final int following;
   final int followers;

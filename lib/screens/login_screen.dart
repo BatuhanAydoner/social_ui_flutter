@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:social_ui_flutter/widgets/curve_clipper.dart';
 import 'package:social_ui_flutter/widgets/login_text_field.dart';
 
+import 'home_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -68,7 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   "Login",
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                },
                 color: Theme.of(context).primaryColor,
               ),
             ),
