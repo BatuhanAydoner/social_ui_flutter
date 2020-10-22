@@ -10,14 +10,12 @@ class TrendingField extends StatefulWidget {
 
 class _TrendingFieldState extends State<TrendingField>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
   PageController pageController;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 2, vsync: this);
-    pageController = PageController(viewportFraction: 0.8);
+    pageController = PageController(viewportFraction: 0.7);
   }
 
   @override

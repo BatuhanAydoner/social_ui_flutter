@@ -1,64 +1,89 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:social_ui_flutter/data/data.dart';
-import 'package:social_ui_flutter/screens/login_screen.dart';
-import 'package:social_ui_flutter/screens/profile_screen.dart';
-import 'package:social_ui_flutter/widgets/trending_field.dart';
+import 'package:social_ui_flutter/models/user.dart';
+import 'package:social_ui_flutter/trending_field_widgets/posts_carousel.dart';
+import 'package:social_ui_flutter/widgets/profile_clipper.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
+import 'login_screen.dart';
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  TabController _tabController;
+class ProfileScreen extends StatelessWidget {
+  final User user;
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.index = 0;
-  }
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  ProfileScreen({this.user});
+
+  PageController _pageController = PageController(viewportFraction: 0.7);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "SOCIALLY",
-          style: TextStyle(
-              color: Theme.of(context).primaryColor, letterSpacing: 10.0),
-        ),
-        centerTitle: true,
-        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        bottom: TabBar(
-          tabs: [
-            Tab(
-              child: Text(
-                "Trending",
-              ),
+      key: _scaffoldKey,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipPath(
+                  clipper: ProfileClipper(),
+                  child: Image(
+                    width: double.infinity,
+                    height: 200.0,
+                    image: AssetImage(user.backgroundImageUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                    top: MediaQuery.of(context).viewPadding.top,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.menu,
+                          color: Colors.blue,
+                          size: 30.0,
+                        ),
+                        onPressed: () {
+                          _scaffoldKey.currentState.openDrawer();
+                        })),
+                Positioned(
+                  bottom: 0.0,
+                  child: Container(
+                    child: CircleAvatar(
+                      radius: 40.0,
+                      backgroundImage: AssetImage(user.profileImageUrl),
+                    ),
+                  ),
+                )
+              ],
             ),
-            Tab(
-              child: Text(
-                "Latest",
-              ),
+            Text(user.name),
+            SizedBox(
+              height: 10.0,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text("Following"),
+                    Text("${user.following}")
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text("Followers"),
+                    Text("${user.followers}")
+                  ],
+                ),
+              ],
+            ),
+            PostsCarousel(
+              pageController: _pageController,
+              title: "Posts",
+              posts: user.posts,
+            )
           ],
-          indicatorWeight: 3.0,
-          labelColor: Theme.of(context).primaryColor,
-          unselectedLabelStyle: TextStyle(fontSize: 18.0),
-          isScrollable: false,
-          controller: _tabController,
         ),
-      ),
-      body: TabBarView(
-        children: [
-          TrendingField(),
-          Text("data"),
-        ],
-        controller: _tabController,
       ),
       drawer: Drawer(
         child: Column(

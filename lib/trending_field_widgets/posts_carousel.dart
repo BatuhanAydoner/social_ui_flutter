@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_ui_flutter/data/data.dart';
 import 'package:social_ui_flutter/models/post.dart';
 
 class PostsCarousel extends StatelessWidget {
@@ -13,7 +14,7 @@ class PostsCarousel extends StatelessWidget {
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, widget) {
-        double value = 0.0;
+        double value = 1.0;
         if (pageController.position.haveDimensions) {
           value = pageController.page - index;
           value = (1 - value.abs() * 0.60).clamp(0.0, 1.0);
@@ -21,7 +22,7 @@ class PostsCarousel extends StatelessWidget {
 
         return Center(
           child: SizedBox(
-            height: Curves.fastOutSlowIn.transform(value) * 400.0,
+            height: Curves.easeInOut.transform(value) * 800.0,
             child: widget,
           ),
         );
@@ -126,6 +127,7 @@ class PostsCarousel extends StatelessWidget {
           height: 400.0,
           child: PageView.builder(
             controller: pageController,
+            pageSnapping: true,
             itemCount: posts.length,
             itemBuilder: (context, index) {
               return _buildPost(context, index);
