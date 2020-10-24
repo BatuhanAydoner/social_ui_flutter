@@ -1,6 +1,8 @@
 # social_ui_flutter
 
-A new Flutter application.
+A social app UI example.
+
+<img src="https://github.com/BatuhanAydonerDev/social_ui_flutter/blob/master/app_gif.gif?raw=true" alt="Social App" width="350"/>
 
 ## Getting Started
 
